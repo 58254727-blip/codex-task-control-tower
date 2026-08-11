@@ -1,0 +1,109 @@
+{
+  "name": "recovery-and-safe-handoff",
+  "createdAt": "2026-08-11T00:00:00.000Z",
+  "plan": {
+    "objective": "Recover a synthetic stalled task",
+    "boundaries": ["Use synthetic data only"],
+    "tasks": [
+      {
+        "id": "recovery",
+        "outcome": "Produce a verified synthetic recovery",
+        "dependencies": [],
+        "writeScope": ["src/synthetic-recovery.mjs"],
+        "successCriteria": ["The focused recovery check passes"],
+        "verification": ["node --test"],
+        "stopCondition": "The verification path remains unavailable"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "event": {
+        "taskId": "recovery",
+        "type": "start",
+        "evidence": "Synthetic recovery started",
+        "at": "2026-08-11T00:00:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:30:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [
+            {
+              "taskId": "recovery",
+              "level": "stalled",
+              "dedupeKey": "stalled:recovery:2026-08-11T00:00:00.000Z",
+              "action": "pause_at_safe_point"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "recovery",
+              "status": "in_progress",
+              "progressState": "stalled",
+              "inactivityMinutes": 30
+            }
+          ]
+        }
+      }
+    },
+    {
+      "event": {
+        "taskId": "recovery",
+        "type": "evidence",
+        "evidence": "Synthetic focused reproduction now passes",
+        "at": "2026-08-11T00:31:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:32:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [],
+          "tasks": [
+            {
+              "id": "recovery",
+              "status": "in_progress",
+              "progressState": "normal",
+              "inactivityMinutes": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "event": {
+        "taskId": "recovery",
+        "type": "complete",
+        "evidence": "Synthetic focused and regression checks passed",
+        "at": "2026-08-11T00:33:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:34:00.000Z",
+        "expected": {
+          "gateResult": "passed",
+          "alerts": [],
+          "tasks": [
+            {
+              "id": "recovery",
+              "status": "completed",
+              "progressState": "not_applicable",
+              "inactivityMinutes": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "handoff": {
+    "contains": [
+      "Synthetic focused and regression checks passed",
+      "Gate result: `passed`"
+    ]
+  }
+}

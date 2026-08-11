@@ -1,0 +1,77 @@
+{
+  "name": "repeated-stall",
+  "createdAt": "2026-08-11T00:00:00.000Z",
+  "plan": {
+    "objective": "Complete a synthetic bounded change",
+    "boundaries": ["Use synthetic data only"],
+    "tasks": [
+      {
+        "id": "work",
+        "outcome": "Produce a focused synthetic result",
+        "dependencies": [],
+        "writeScope": ["src/synthetic.mjs"],
+        "successCriteria": ["The synthetic check passes"],
+        "verification": ["node --test"],
+        "stopCondition": "Two equivalent failures occur"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "event": {
+        "taskId": "work",
+        "type": "start",
+        "evidence": "Synthetic implementation started",
+        "at": "2026-08-11T00:00:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:30:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [
+            {
+              "taskId": "work",
+              "level": "stalled",
+              "dedupeKey": "stalled:work:2026-08-11T00:00:00.000Z",
+              "action": "pause_at_safe_point"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "work",
+              "status": "in_progress",
+              "progressState": "stalled",
+              "inactivityMinutes": 30
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:40:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [
+            {
+              "taskId": "work",
+              "level": "stalled",
+              "dedupeKey": "stalled:work:2026-08-11T00:00:00.000Z",
+              "action": "pause_at_safe_point"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "work",
+              "status": "in_progress",
+              "progressState": "stalled",
+              "inactivityMinutes": 40
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

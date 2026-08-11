@@ -14,6 +14,7 @@ Complete every item before publishing.
 npm test
 npm run demo
 npm run validate:public
+npm run verify:consumer
 npm pack --dry-run
 ```
 
@@ -21,8 +22,10 @@ npm pack --dry-run
 - [ ] The executable synthetic demo reaches a passing gate and sanitized handoff.
 - [ ] The public-release validator reports zero findings outside its exact synthetic fixture allowlist.
 - [ ] The package dry run contains only intended public files.
+- [ ] A clean temporary consumer can install the packed artifact and invoke its CLI.
 - [ ] All skill folders pass the Codex skill validator.
 - [ ] The plugin root passes the Codex plugin validator.
+- [ ] `docs/compatibility.md` records the current platform, plugin, and six-Skill results, with warnings separated from failures.
 
 ## Repository
 

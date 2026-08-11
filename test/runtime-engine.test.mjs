@@ -5,6 +5,7 @@ import {
   ControlTowerError,
   createHandoff,
   createRun,
+  createStatusSnapshot,
   getGateResult,
   getReadyTaskIds,
   recordEvent,
@@ -41,6 +42,49 @@ test("creates a run and exposes only dependency-ready tasks", () => {
   assert.deepEqual(getReadyTaskIds(run), ["contract"]);
   assert.equal(run.tasks[0].status, "pending");
   assert.equal(run.tasks[1].status, "pending");
+});
+
+test("classifies inactivity without changing the persisted task status", () => {
+  let run = createRun(plan, "2026-08-11T00:00:00.000Z");
+  run = recordEvent(run, {
+    taskId: "contract",
+    type: "start",
+    evidence: "Synthetic work started",
+    at: "2026-08-11T00:01:00.000Z",
+  });
+
+  const warning = createStatusSnapshot(run, "2026-08-11T00:21:00.000Z");
+  assert.equal(warning.tasks[0].status, "in_progress");
+  assert.equal(warning.tasks[0].progressState, "warning");
+  assert.equal(warning.tasks[0].inactivityMinutes, 20);
+  assert.equal(warning.alerts[0].action, "report_last_evidence_and_blocker");
+
+  const stalled = createStatusSnapshot(run, "2026-08-11T00:31:00.000Z");
+  assert.equal(stalled.tasks[0].progressState, "stalled");
+  assert.equal(stalled.alerts[0].action, "pause_at_safe_point");
+  assert.equal(run.tasks[0].status, "in_progress");
+});
+
+test("new evidence resets the inactivity assessment and warning key", () => {
+  let run = createRun(plan, "2026-08-11T00:00:00.000Z");
+  run = recordEvent(run, {
+    taskId: "contract",
+    type: "start",
+    at: "2026-08-11T00:01:00.000Z",
+  });
+  const first = createStatusSnapshot(run, "2026-08-11T00:21:00.000Z");
+
+  run = recordEvent(run, {
+    taskId: "contract",
+    type: "evidence",
+    evidence: "Synthetic focused test produced a new result",
+    at: "2026-08-11T00:22:00.000Z",
+  });
+  const recovered = createStatusSnapshot(run, "2026-08-11T00:23:00.000Z");
+
+  assert.equal(recovered.tasks[0].progressState, "normal");
+  assert.equal(recovered.tasks[0].inactivityMinutes, 1);
+  assert.notEqual(first.alerts[0]?.dedupeKey, recovered.alerts[0]?.dedupeKey);
 });
 
 test("rejects unknown dependencies and dependency cycles", () => {

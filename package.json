@@ -1,6 +1,6 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Local-first Codex orchestration skills with a runnable evidence ledger, verification gates, and privacy-safe handoffs.",
   "type": "module",
   "private": false,
@@ -14,7 +14,7 @@
     "url": "https://github.com/58254727-blip/codex-task-control-tower/issues"
   },
   "bin": {
-    "codex-control-tower": "./bin/control-tower.mjs"
+    "codex-control-tower": "bin/control-tower.mjs"
   },
   "files": [
     ".codex-plugin/",
@@ -32,7 +32,12 @@
   "scripts": {
     "demo": "node scripts/run-runtime-demo.mjs",
     "test": "node --test",
-    "validate:public": "node scripts/validate-public-release.mjs ."
+    "validate:public": "node scripts/validate-public-release.mjs .",
+    "verify:consumer": "node scripts/consumer-install-smoke.mjs",
+    "release:check": "npm test && npm run demo && npm run validate:public && npm run verify:consumer && npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">=18"

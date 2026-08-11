@@ -21,6 +21,7 @@ Run all checks before opening a pull request:
 npm test
 npm run demo
 npm run validate:public
+npm run verify:consumer
 npm pack --dry-run
 ```
 
@@ -29,6 +30,10 @@ process flow. The demo runs the synthetic ledger from initialization through a
 passing gate and handoff. The release validator scans the complete repository
 for material that should not be published, and the package dry run shows the
 exact files that would ship.
+
+Before each release, update [the compatibility matrix](docs/compatibility.md)
+with the tested runtime date, platform matrix, plugin manifest result, all six
+Skill results, and any validator warnings. Keep warnings separate from failures.
 
 If a scanner fixture intentionally resembles sensitive material, add only that exact synthetic file to `.public-release-allowlist.json` and explain why.
 

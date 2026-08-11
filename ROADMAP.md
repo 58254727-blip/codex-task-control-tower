@@ -11,12 +11,13 @@ sake.
 - Publish small, inspectable releases with verification evidence.
 - Maintain the zero-dependency CLI, machine-readable state contract, real
   process-level tests, and cross-platform validation matrix.
+- Keep synthetic progress, warning, repeated-stall, boundary-pause, recovery,
+  and safe-handoff timelines deterministic in the test suite.
+- Record plugin-manifest and all six Skill-validator results for each release.
 
 ## Next
 
-- Add synthetic fixtures for interrupted runs, blocker resolution, and compatible
-  state migrations when evidence shows they are needed.
-- Document compatibility against current Codex plugin and Skill validators.
+- Add compatible state migrations when evidence shows they are needed.
 - Collect structured maintainer feedback through public issues without adding
   telemetry.
 - Publish reproducible maintainer case studies using only synthetic or already

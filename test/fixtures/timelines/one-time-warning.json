@@ -1,0 +1,77 @@
+{
+  "name": "one-time-warning",
+  "createdAt": "2026-08-11T00:00:00.000Z",
+  "plan": {
+    "objective": "Complete a synthetic bounded change",
+    "boundaries": ["Use synthetic data only"],
+    "tasks": [
+      {
+        "id": "work",
+        "outcome": "Produce a focused synthetic result",
+        "dependencies": [],
+        "writeScope": ["src/synthetic.mjs"],
+        "successCriteria": ["The synthetic check passes"],
+        "verification": ["node --test"],
+        "stopCondition": "Two equivalent failures occur"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "event": {
+        "taskId": "work",
+        "type": "start",
+        "evidence": "Synthetic implementation started",
+        "at": "2026-08-11T00:00:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:20:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [
+            {
+              "taskId": "work",
+              "level": "warning",
+              "dedupeKey": "warning:work:2026-08-11T00:00:00.000Z",
+              "action": "report_last_evidence_and_blocker"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "work",
+              "status": "in_progress",
+              "progressState": "warning",
+              "inactivityMinutes": 20
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:25:00.000Z",
+        "expected": {
+          "gateResult": "unverified",
+          "alerts": [
+            {
+              "taskId": "work",
+              "level": "warning",
+              "dedupeKey": "warning:work:2026-08-11T00:00:00.000Z",
+              "action": "report_last_evidence_and_blocker"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "work",
+              "status": "in_progress",
+              "progressState": "warning",
+              "inactivityMinutes": 25
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

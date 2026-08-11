@@ -51,6 +51,7 @@ npm run validate:public
 - **验证门槛**：验证目标行为、针对性测试、相关回归，以及适用的隐私和发布检查。
 - **任务控制塔**：只根据文件、命令、测试、提交、运行日志等证据，把任务标记为 `completed`、`in_progress`、`blocked` 或 `unverified`。
 - **停滞识别**：不把界面里的运行状态当作进度证据，并使用明确的 20 分钟与 30 分钟阈值。
+- **机器可读时间线**：输出可重复计算的停滞评估和稳定告警键，便于调用方只提醒一次。
 - **脱敏交接**：保留目标、已验证成果、边界、阻塞和下一步，不复制整段聊天记录。
 - **本地运行时 CLI**：保存可检查的 JSON 账本，约束依赖就绪、同类失败两次停止，返回明确退出码，并生成脱敏 Markdown 交接。
 - **公开发布扫描**：检查疑似密钥、令牌、Cookie、个人邮箱、绝对路径、会话式标识、公网地址和非 UTF-8 文件。
@@ -69,6 +70,7 @@ cd codex-task-control-tower
 npm test
 npm run demo
 npm run validate:public
+npm run verify:consumer
 ```
 
 可选 CLI、演示、验证脚本和测试需要 Node.js 18 或更高版本；Skills 本身没有运行时依赖，CLI 也不依赖第三方包。
@@ -135,7 +137,8 @@ npm pack --dry-run
 
 更多信息见 [贡献指南](CONTRIBUTING.md)、[路线图](ROADMAP.md)、
 [安全政策](SECURITY.md)、[变更记录](CHANGELOG.md)和
-[公开发布检查表](docs/public-release-checklist.md)。
+[公开发布检查表](docs/public-release-checklist.md)。平台安装、发布包消费、
+插件清单和 Skill 校验结果见[兼容性矩阵](docs/compatibility.md)。
 
 ## 许可证
 
