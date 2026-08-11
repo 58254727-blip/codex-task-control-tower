@@ -73,3 +73,50 @@ test("status board template contains the evidence-backed columns", async () => {
     assert.match(template, new RegExp(heading, "i"));
   }
 });
+
+test("task-handoff exposes a compact sanitized continuation contract", async () => {
+  const source = await read("skills/task-handoff/SKILL.md");
+  const frontmatter = readFrontmatter(source);
+
+  assert.equal(frontmatter.get("name"), "task-handoff");
+  assert.match(frontmatter.get("description") ?? "", /^Use when /);
+
+  for (const field of [
+    "Objective",
+    "Current scope",
+    "Verified completed",
+    "Latest evidence",
+    "Blocker or user action",
+    "Frozen boundaries",
+    "Next safe step",
+  ]) {
+    assert.match(source, new RegExp(field, "i"));
+  }
+
+  assert.match(source, /do not include raw conversation/i);
+  assert.match(source, /credentials/i);
+  assert.match(source, /private data/i);
+  assert.match(source, /identifiers only when explicitly requested/i);
+  assert.match(source, /never invent/i);
+});
+
+test("task handoff template and scenario stay generic", async () => {
+  const template = await read("templates/task-handoff.md");
+  const scenario = await read("test/scenarios/task-handoff.md");
+
+  for (const heading of [
+    "Objective",
+    "Current scope",
+    "Verified completed",
+    "Latest evidence",
+    "Blocker or user action",
+    "Frozen boundaries",
+    "Next safe step",
+  ]) {
+    assert.match(template, new RegExp(heading, "i"));
+  }
+
+  assert.match(scenario, /Source Task/i);
+  assert.match(scenario, /Destination Task/i);
+  assert.match(scenario, /synthetic/i);
+});
