@@ -1,7 +1,7 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.2.1",
-  "description": "Local-first development orchestration, evidence-backed coordination, and sanitized handoffs for Codex tasks.",
+  "version": "0.3.0",
+  "description": "Local-first development orchestration with a runnable evidence ledger and sanitized handoffs for Codex tasks.",
   "author": {
     "name": "Codex Task Control Tower Contributors"
   },
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Codex Task Control Tower",
     "shortDescription": "Plan, route, execute, verify, and hand off Codex work",
-    "longDescription": "Plan bounded software work, route ready tasks to available Skills, control evidence-backed execution, verify outcomes, inspect task progress, and create sanitized handoffs.",
+    "longDescription": "Plan bounded software work, route ready tasks to available Skills, control evidence-backed execution, persist optional local state, verify outcomes, inspect task progress, and create sanitized handoffs.",
     "developerName": "Codex Task Control Tower Contributors",
     "category": "Productivity",
     "capabilities": [
@@ -27,7 +27,8 @@
       "Bounded execution control",
       "Evidence-based verification gates",
       "Evidence-backed task status",
-      "Sanitized task handoffs"
+      "Sanitized task handoffs",
+      "Runnable local evidence ledger CLI"
     ],
     "defaultPrompt": [
       "Use execution-controller to complete this bounded software objective end to end.",

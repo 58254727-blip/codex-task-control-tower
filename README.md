@@ -6,12 +6,29 @@
 
 [简体中文](README.zh-CN.md)
 
-A local-first Codex plugin that turns one bounded software objective into a
+A local-first Codex plugin that guides one bounded software objective into a
 small dependency graph, routes ready work to available Skills, controls
 evidence-backed execution, verifies the outcome, and preserves privacy-safe
 status and handoffs.
 
 It was extracted as a generic open-source tool. The repository contains no production credentials, private task history, company data, or user-specific configuration.
+
+The project has two deliberately separate layers:
+
+- **Codex Skills** guide planning, Skill routing, execution decisions, status,
+  verification, and handoff inside the active Codex task.
+- A **runnable local CLI** persists a machine-readable task graph and evidence
+  ledger, exposes ready work, stops equivalent repeated failures, evaluates the
+  completion gate, and emits a sanitized handoff.
+
+## Why This Exists
+
+Long-running coding tasks often fail in predictable ways: an `active` label is
+mistaken for progress, the same unsuccessful fix is retried, verification is
+declared without evidence, and raw handoffs copy private paths or credentials.
+This project turns those failure modes into explicit, inspectable state. It is
+small enough to adopt without replacing an existing workflow and strict enough
+to stop work when evidence or authority is missing.
 
 ## 60-second Demo
 
@@ -20,6 +37,7 @@ git clone https://github.com/58254727-blip/codex-task-control-tower.git
 cd codex-task-control-tower
 npm ci
 npm test
+npm run demo
 npm run validate:public
 ```
 
@@ -29,9 +47,10 @@ Then install the repository root through the Codex plugin interface and ask:
 Use execution-controller to complete this bounded software objective end to end.
 ```
 
-See the [synthetic end-to-end demo](docs/demo.md) for the expected planning,
-routing, execution, verification, status, and handoff artifacts. The example is
-deliberately synthetic and does not contain private task history.
+`npm run demo` executes the real CLI from initialization through a passing gate
+and sanitized handoff. See the [synthetic end-to-end demo](docs/demo.md) for the
+commands and artifacts. The example is deliberately synthetic and contains no
+private task history.
 
 ## Features
 
@@ -42,14 +61,15 @@ deliberately synthetic and does not contain private task history.
 - **Task control tower**: classifies tasks as `completed`, `in_progress`, `blocked`, or `unverified` using concrete evidence.
 - **Stall detection**: distinguishes UI metadata from real progress and applies clear 20-minute and 30-minute thresholds.
 - **Sanitized handoff**: preserves the objective, verified work, boundaries, blocker, and next safe step without copying raw conversations.
+- **Local runtime CLI**: stores an inspectable JSON ledger, enforces dependency readiness and the two-equivalent-failure stop, returns meaningful exit codes, and writes sanitized Markdown handoffs.
 - **Public-release validator**: scans text files for likely secrets, private identifiers, personal contact data, absolute paths, and invalid UTF-8.
 
-This is not a background daemon. Its orchestration runs only inside the active
-Codex task and under the current runtime's tools, Skills, permissions, and user
-instructions. It does not install missing Skills or grant permission for
-deployment, publishing, credentials, production data, or destructive actions.
-`task-control-tower` remains read-only unless the user separately authorizes
-intervention.
+This is not a background daemon. The Skills run only inside the active Codex
+task and under the current runtime's tools, permissions, and user instructions.
+The CLI records state but does not execute project commands or call a model. No
+layer installs missing Skills or grants permission for deployment, publishing,
+credentials, production data, or destructive actions. `task-control-tower`
+remains read-only unless the user separately authorizes intervention.
 
 ## Install
 
@@ -61,10 +81,13 @@ For local validation:
 git clone https://github.com/58254727-blip/codex-task-control-tower.git
 cd codex-task-control-tower
 npm test
+npm run demo
 npm run validate:public
 ```
 
-Node.js 18 or newer is required only for the validation scripts and tests. The skills themselves have no runtime dependency.
+Node.js 18 or newer is required for the optional CLI, demo, validator, and
+tests. The Skills themselves have no runtime dependency, and the CLI has no
+third-party package dependency.
 
 ## Usage
 
@@ -87,6 +110,19 @@ Use task-handoff to create a compact sanitized continuation record.
 
 Templates are available in `templates/`.
 
+For durable local evidence, use the optional CLI:
+
+```bash
+node bin/control-tower.mjs init examples/synthetic-plan.json
+node bin/control-tower.mjs status
+node bin/control-tower.mjs record --task contract --type complete --evidence "Focused synthetic contract test passed"
+node bin/control-tower.mjs verify
+node bin/control-tower.mjs handoff --output handoff.md
+```
+
+See the [CLI reference](docs/runtime-cli.md). State defaults to the ignored
+`.control-tower/` directory and stays on the local machine.
+
 The six bundled Skills are:
 
 - `execution-controller`
@@ -100,6 +136,7 @@ The six bundled Skills are:
 
 - No network service, MCP server, hook, telemetry, or API key is included.
 - Planning and routing never create authority for external side effects.
+- Local ledger files can contain raw evidence and must not be committed; only a reviewed sanitized handoff is suitable for sharing.
 - The validator never prints matched secret content; it reports only file, line, and rule.
 - The only credential-like fixture is deliberately synthetic and explicitly allowlisted for scanner tests.
 - Real credentials, private data, raw conversations, internal addresses, and unnecessary identifiers must never be committed.
@@ -108,7 +145,9 @@ The six bundled Skills are:
 
 ```bash
 npm test
+npm run demo
 npm run validate:public
+npm pack --dry-run
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md),

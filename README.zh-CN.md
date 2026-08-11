@@ -6,9 +6,21 @@
 
 [English](README.md)
 
-一个本地优先的 Codex 开发编排插件：接收一个边界明确的软件目标，自动拆解为最小充分任务图，为就绪任务选择当前可用的 Skill，按证据推进执行并完成最终验收，同时保留任务监控和脱敏交接能力。
+一个本地优先的 Codex 开发编排插件：接收一个边界明确的软件目标，在模型指导下拆解为最小充分任务图，为就绪任务选择当前可用的 Skill，按证据推进执行并完成最终验收，同时保留任务监控和脱敏交接能力。
 
 这是从实际工作方法中提炼出的通用开源工具。仓库不包含生产凭据、私人任务历史、公司数据或用户专属配置。
+
+项目刻意分成两层：
+
+- **Codex Skills** 在当前任务内指导规划、Skill 路由、执行决策、状态汇总、验证和交接。
+- **可运行的本地 CLI** 持久化机器可读的任务图与证据账本，显示就绪任务，阻止同类失败盲目重试，计算验收结果并生成脱敏交接。
+
+## 为什么做这个项目
+
+长时间编码任务经常以几种可预见的方式失控：把界面的 `active` 当成真实进展，
+重复尝试同一个失败方案，在没有证据时宣布验证通过，或在交接中复制私人路径和凭据。
+本项目把这些风险转成明确、可检查的状态。它足够轻量，不要求替换现有开发流程；
+同时也足够严格，会在缺少证据或授权时停止继续推进。
 
 ## 60 秒演示
 
@@ -17,6 +29,7 @@ git clone https://github.com/58254727-blip/codex-task-control-tower.git
 cd codex-task-control-tower
 npm ci
 npm test
+npm run demo
 npm run validate:public
 ```
 
@@ -26,8 +39,9 @@ npm run validate:public
 使用 execution-controller，把这个边界明确的软件目标从规划推进到验证完成。
 ```
 
-完整过程见[合成端到端演示](docs/demo.md)。它展示规划、路由、执行、验证、
-状态和交接产物，全部使用合成内容，不包含私人任务历史。
+`npm run demo` 会真实调用 CLI，从初始化一直运行到验收通过并生成脱敏交接。
+完整命令和产物见[合成端到端演示](docs/demo.md)，全部使用合成内容，
+不包含私人任务历史。
 
 ## 功能
 
@@ -38,9 +52,10 @@ npm run validate:public
 - **任务控制塔**：只根据文件、命令、测试、提交、运行日志等证据，把任务标记为 `completed`、`in_progress`、`blocked` 或 `unverified`。
 - **停滞识别**：不把界面里的运行状态当作进度证据，并使用明确的 20 分钟与 30 分钟阈值。
 - **脱敏交接**：保留目标、已验证成果、边界、阻塞和下一步，不复制整段聊天记录。
+- **本地运行时 CLI**：保存可检查的 JSON 账本，约束依赖就绪、同类失败两次停止，返回明确退出码，并生成脱敏 Markdown 交接。
 - **公开发布扫描**：检查疑似密钥、令牌、Cookie、个人邮箱、绝对路径、会话式标识、公网地址和非 UTF-8 文件。
 
-它不是后台守护进程，只在当前 Codex 任务中、依据当前可用工具、Skill、权限和用户指令运行。它不会安装缺失 Skill，也不会自动获得部署、发布、生产数据、凭据或破坏性操作权限。`task-control-tower` 仍然默认只读，除非用户另行授权干预。
+它不是后台守护进程。Skills 只在当前 Codex 任务中依据现有工具、权限和用户指令运行；CLI 只记录状态，不会自己执行项目命令或调用模型。任何一层都不会安装缺失 Skill，也不会自动获得部署、发布、生产数据、凭据或破坏性操作权限。`task-control-tower` 仍然默认只读，除非用户另行授权干预。
 
 ## 安装
 
@@ -52,10 +67,11 @@ npm run validate:public
 git clone https://github.com/58254727-blip/codex-task-control-tower.git
 cd codex-task-control-tower
 npm test
+npm run demo
 npm run validate:public
 ```
 
-验证脚本和测试需要 Node.js 18 或更高版本；技能本身没有运行时依赖。
+可选 CLI、演示、验证脚本和测试需要 Node.js 18 或更高版本；Skills 本身没有运行时依赖，CLI 也不依赖第三方包。
 
 ## 使用
 
@@ -77,6 +93,19 @@ npm run validate:public
 
 通用模板位于 `templates/`。
 
+需要持久化本地证据时，可使用可选 CLI：
+
+```bash
+node bin/control-tower.mjs init examples/synthetic-plan.json
+node bin/control-tower.mjs status
+node bin/control-tower.mjs record --task contract --type complete --evidence "Focused synthetic contract test passed"
+node bin/control-tower.mjs verify
+node bin/control-tower.mjs handoff --output handoff.md
+```
+
+完整说明见 [CLI 参考](docs/runtime-cli.md)。状态默认保存在已忽略的
+`.control-tower/` 目录，只留在本机。
+
 插件包含六个 Skill：
 
 - `execution-controller`
@@ -90,6 +119,7 @@ npm run validate:public
 
 - 不包含网络服务、MCP 服务、钩子、遥测或 API 密钥。
 - 规划和路由不会产生任何外部操作授权。
+- 本地账本可能包含原始证据，禁止提交；只有经过复核的脱敏交接适合分享。
 - 扫描器不会打印命中的敏感原文，只报告文件、行号和规则。
 - 仓库中唯一类似凭据的内容是专门用于测试扫描器的合成样例，并已精确列入测试白名单。
 - 禁止提交真实凭据、私人资料、原始聊天、内部地址和非必要标识。
@@ -98,7 +128,9 @@ npm run validate:public
 
 ```bash
 npm test
+npm run demo
 npm run validate:public
+npm pack --dry-run
 ```
 
 更多信息见 [贡献指南](CONTRIBUTING.md)、[路线图](ROADMAP.md)、

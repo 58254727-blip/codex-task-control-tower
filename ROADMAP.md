@@ -9,21 +9,21 @@ sake.
 - Keep contract tests and public-release privacy scanning green in CI.
 - Maintain bilingual installation, usage, and privacy documentation.
 - Publish small, inspectable releases with verification evidence.
+- Maintain the zero-dependency CLI, machine-readable state contract, real
+  process-level tests, and cross-platform validation matrix.
 
 ## Next
 
-- Add a cross-platform installation and validation matrix for Windows, macOS,
-  and Linux.
-- Expand synthetic end-to-end fixtures for dependency routing, repeated-failure
-  stops, verification failures, and sanitized handoffs.
+- Add synthetic fixtures for interrupted runs, blocker resolution, and compatible
+  state migrations when evidence shows they are needed.
 - Document compatibility against current Codex plugin and Skill validators.
 - Collect structured maintainer feedback through public issues without adding
   telemetry.
+- Publish reproducible maintainer case studies using only synthetic or already
+  public project material.
 
 ## Later
 
-- Add machine-readable synthetic scenario fixtures while preserving the human
-  readable templates.
 - Evaluate additional local-only reporting formats when a real maintainer use
   case and verification path exist.
 

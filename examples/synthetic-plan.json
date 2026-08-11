@@ -1,0 +1,34 @@
+{
+  "objective": "Add a synthetic JSON export without changing text output",
+  "boundaries": [
+    "No network access",
+    "No new dependencies",
+    "Keep existing text output unchanged"
+  ],
+  "tasks": [
+    {
+      "id": "contract",
+      "outcome": "Define the JSON export contract",
+      "dependencies": [],
+      "writeScope": ["test/export.test.mjs"],
+      "successCriteria": ["A focused test captures the requested JSON shape"],
+      "verification": ["node --test test/export.test.mjs"],
+      "stopCondition": "The requested shape is ambiguous"
+    },
+    {
+      "id": "implementation",
+      "outcome": "Implement and verify the JSON export",
+      "dependencies": ["contract"],
+      "writeScope": ["src/export.mjs"],
+      "successCriteria": [
+        "The focused test passes",
+        "Existing text output remains unchanged"
+      ],
+      "verification": [
+        "node --test test/export.test.mjs",
+        "node --test test/text-output.test.mjs"
+      ],
+      "stopCondition": "Two equivalent failures occur"
+    }
+  ]
+}

@@ -73,6 +73,9 @@ test("execution-controller is the bounded end-to-end orchestration entry point",
   assert.match(source, /third blind attempt/i);
   assert.match(source, /safe checkpoint/i);
   assert.match(source, /system and user boundaries/i);
+  assert.match(source, /codex-control-tower/i);
+  assert.match(source, /optional local evidence ledger/i);
+  assert.match(source, /does not replace judgment/i);
 });
 
 test("verification-gate refuses completion without outcome evidence", async () => {
@@ -137,20 +140,42 @@ test("synthetic orchestration scenario covers the complete bounded workflow", as
   assert.match(scenario, /no real repository/i);
 });
 
-test("v0.2.1 manifest and documentation expose orchestration without a daemon", async () => {
+test("v0.3.0 manifest and documentation expose runnable orchestration without a daemon", async () => {
   const manifest = JSON.parse(await read(".codex-plugin/plugin.json"));
   const packageJson = JSON.parse(await read("package.json"));
   const readme = await read("README.md");
   const readmeZh = await read("README.zh-CN.md");
 
-  assert.equal(manifest.version, "0.2.1");
-  assert.equal(packageJson.version, "0.2.1");
-  assert.equal(manifest.interface.capabilities.length, 6);
+  assert.equal(manifest.version, "0.3.0");
+  assert.equal(packageJson.version, "0.3.0");
+  assert.equal(manifest.interface.capabilities.length, 7);
   assert.match(manifest.interface.longDescription, /plan/i);
   assert.match(manifest.interface.longDescription, /Skill/i);
   assert.match(manifest.interface.longDescription, /verify/i);
   assert.match(readme, /execution-controller/i);
   assert.match(readme, /not a background daemon/i);
-  assert.match(readmeZh, /自动拆解/);
+  assert.match(readme, /runnable local CLI/i);
+  assert.match(readmeZh, /模型指导下拆解/);
   assert.match(readmeZh, /不是后台守护进程/);
+  assert.match(readmeZh, /可运行的本地 CLI/);
+});
+
+test("npm package exposes the zero-dependency control tower CLI", async () => {
+  const packageJson = JSON.parse(await read("package.json"));
+
+  assert.equal(packageJson.bin["codex-control-tower"], "./bin/control-tower.mjs");
+  assert.equal(packageJson.scripts.demo, "node scripts/run-runtime-demo.mjs");
+  assert.deepEqual(packageJson.files, [
+    ".codex-plugin/",
+    "bin/",
+    "docs/",
+    "examples/",
+    "scripts/",
+    "skills/",
+    "src/",
+    "templates/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE",
+  ]);
 });

@@ -25,6 +25,22 @@ const LINE_RULES = [
       /\b(?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret[_-]?key)\b\s*[:=]\s*["']?[A-Za-z0-9_./+=-]{12,}/i,
   },
   {
+    rule: "openai-token",
+    pattern: /\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{16,}\b/,
+  },
+  {
+    rule: "github-token",
+    pattern: /\bgh[pousr]_[A-Za-z0-9]{20,}\b/,
+  },
+  {
+    rule: "aws-access-key",
+    pattern: /\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/,
+  },
+  {
+    rule: "slack-token",
+    pattern: /\bxox[baprs](?:-[A-Za-z0-9]+){2,}\b/,
+  },
+  {
     rule: "cookie-header",
     pattern: /\bcookie\s*:\s*[A-Za-z0-9_.-]+=/i,
   },
@@ -104,9 +120,9 @@ function isPublicIpv4(candidate) {
   if (a === 169 && b === 254) return false;
   if (a === 172 && b >= 16 && b <= 31) return false;
   if (a === 192 && b === 168) return false;
-  if (a === 192 && b === 0) return false;
-  if (a === 192 && b === 0 && octets[2] === 2) return false;
-  if (a === 198 && (b === 18 || b === 19 || b === 51)) return false;
+  if (a === 192 && b === 0 && (octets[2] === 0 || octets[2] === 2)) return false;
+  if (a === 198 && (b === 18 || b === 19)) return false;
+  if (a === 198 && b === 51 && octets[2] === 100) return false;
   if (a === 203 && b === 0 && octets[2] === 113) return false;
   return true;
 }

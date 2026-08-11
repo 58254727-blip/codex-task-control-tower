@@ -28,6 +28,16 @@ For each task record its state, latest evidence, evidence time, write scope,
 attempt count, blocker, and next safe action. Evidence means an inspectable
 diff, command result, test, runtime log, commit, or external receipt.
 
+### Optional Local Evidence Ledger
+
+When durable machine-readable state is useful, use `codex-control-tower` as an
+optional local evidence ledger. It can initialize a bounded task graph, record
+evidence and equivalent-failure keys, show dependency-ready work, enforce the
+two-failure stop, evaluate the verification gate, and create a sanitized
+handoff. The CLI does not replace judgment, execute project commands by itself,
+or grant authority for an operation. The active Codex session remains
+responsible for choosing and performing approved work.
+
 ## Failure Control
 
 - Classify failures by root cause, not wording alone.

@@ -1,7 +1,7 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.2.1",
-  "description": "Local-first Codex skills for bounded development orchestration, evidence-backed status, and privacy-safe handoffs.",
+  "version": "0.3.0",
+  "description": "Local-first Codex orchestration skills with a runnable evidence ledger, verification gates, and privacy-safe handoffs.",
   "type": "module",
   "private": false,
   "license": "MIT",
@@ -13,7 +13,24 @@
   "bugs": {
     "url": "https://github.com/58254727-blip/codex-task-control-tower/issues"
   },
+  "bin": {
+    "codex-control-tower": "./bin/control-tower.mjs"
+  },
+  "files": [
+    ".codex-plugin/",
+    "bin/",
+    "docs/",
+    "examples/",
+    "scripts/",
+    "skills/",
+    "src/",
+    "templates/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "demo": "node scripts/run-runtime-demo.mjs",
     "test": "node --test",
     "validate:public": "node scripts/validate-public-release.mjs ."
   },
