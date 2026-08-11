@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a bounded improvement that preserves the plugin contracts.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What repeatable maintainer problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Smallest sufficient outcome
+      description: Describe the observable result, not a broad architecture rewrite.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Boundaries and non-goals
+      description: State what must remain unchanged, including privacy and authority boundaries.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Proposed verification
+      description: How can the result be proven with synthetic fixtures or public data?
+    validations:
+      required: true

@@ -1,10 +1,33 @@
 # Codex 任务控制塔
 
+[![CI](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml/badge.svg)](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/58254727-blip/codex-task-control-tower)](https://github.com/58254727-blip/codex-task-control-tower/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [English](README.md)
 
 一个本地优先的 Codex 开发编排插件：接收一个边界明确的软件目标，自动拆解为最小充分任务图，为就绪任务选择当前可用的 Skill，按证据推进执行并完成最终验收，同时保留任务监控和脱敏交接能力。
 
 这是从实际工作方法中提炼出的通用开源工具。仓库不包含生产凭据、私人任务历史、公司数据或用户专属配置。
+
+## 60 秒演示
+
+```bash
+git clone https://github.com/58254727-blip/codex-task-control-tower.git
+cd codex-task-control-tower
+npm ci
+npm test
+npm run validate:public
+```
+
+然后从 Codex 插件界面安装仓库根目录，并输入：
+
+```text
+使用 execution-controller，把这个边界明确的软件目标从规划推进到验证完成。
+```
+
+完整过程见[合成端到端演示](docs/demo.md)。它展示规划、路由、执行、验证、
+状态和交接产物，全部使用合成内容，不包含私人任务历史。
 
 ## 功能
 
@@ -78,7 +101,9 @@ npm test
 npm run validate:public
 ```
 
-更多信息见 [贡献指南](CONTRIBUTING.md)、[安全政策](SECURITY.md) 和 [公开发布检查表](docs/public-release-checklist.md)。
+更多信息见 [贡献指南](CONTRIBUTING.md)、[路线图](ROADMAP.md)、
+[安全政策](SECURITY.md)、[变更记录](CHANGELOG.md)和
+[公开发布检查表](docs/public-release-checklist.md)。
 
 ## 许可证
 
