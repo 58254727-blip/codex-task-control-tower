@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml/badge.svg)](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/58254727-blip/codex-task-control-tower)](https://github.com/58254727-blip/codex-task-control-tower/releases)
+[![npm](https://img.shields.io/npm/v/codex-task-control-tower)](https://www.npmjs.com/package/codex-task-control-tower)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [简体中文](README.zh-CN.md)
@@ -31,6 +32,14 @@ small enough to adopt without replacing an existing workflow and strict enough
 to stop work when evidence or authority is missing.
 
 ## 60-second Demo
+
+Run the published CLI without cloning the repository:
+
+```bash
+npx --yes codex-task-control-tower@latest --help
+```
+
+Or run the complete repository demo and public-release checks:
 
 ```bash
 git clone https://github.com/58254727-blip/codex-task-control-tower.git
@@ -74,7 +83,24 @@ remains read-only unless the user separately authorizes intervention.
 
 ## Install
 
-Clone or download this repository, then install the repository root through the Codex plugin interface. The plugin manifest is `.codex-plugin/plugin.json`.
+Use the published zero-dependency CLI directly:
+
+```bash
+npx --yes codex-task-control-tower@latest --help
+```
+
+For a persistent global command:
+
+```bash
+npm install --global codex-task-control-tower
+codex-control-tower --help
+```
+
+The published package is available on
+[npm](https://www.npmjs.com/package/codex-task-control-tower). To install the
+Codex Skills, clone or download this repository and install the repository root
+through the Codex plugin interface. The plugin manifest is
+`.codex-plugin/plugin.json`.
 
 For local validation:
 
@@ -90,6 +116,9 @@ npm run verify:consumer
 Node.js 18 or newer is required for the optional CLI, demo, validator, and
 tests. The Skills themselves have no runtime dependency, and the CLI has no
 third-party package dependency.
+
+For an evidence-backed example of maintaining this repository itself, see the
+[npm onboarding and trusted-publishing case study](docs/maintainer-case-study.md).
 
 ## Usage
 
