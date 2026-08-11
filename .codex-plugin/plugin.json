@@ -19,6 +19,10 @@
     "longDescription": "Inspect task progress from concrete evidence, identify stalls, and create compact sanitized handoffs without modifying other tasks.",
     "developerName": "Codex Task Control Tower Contributors",
     "category": "Productivity",
+    "capabilities": [
+      "Evidence-backed task status",
+      "Sanitized task handoffs"
+    ],
     "defaultPrompt": [
       "Summarize these Codex tasks using concrete evidence.",
       "Create a sanitized handoff for this task."

@@ -120,3 +120,34 @@ test("task handoff template and scenario stay generic", async () => {
   assert.match(scenario, /Destination Task/i);
   assert.match(scenario, /synthetic/i);
 });
+
+test("public documentation covers installation, privacy, and verification", async () => {
+  const readme = await read("README.md");
+  const readmeZh = await read("README.zh-CN.md");
+  const contributing = await read("CONTRIBUTING.md");
+  const security = await read("SECURITY.md");
+  const license = await read("LICENSE");
+  const checklist = await read("docs/public-release-checklist.md");
+
+  for (const heading of ["Features", "Install", "Usage", "Privacy"]) {
+    assert.match(readme, new RegExp(heading, "i"));
+  }
+  assert.match(readmeZh, /任务控制塔/);
+  assert.match(readmeZh, /脱敏交接/);
+  assert.match(contributing, /npm test/i);
+  assert.match(contributing, /validate:public/i);
+  assert.match(security, /private vulnerability reporting/i);
+  assert.match(license, /MIT License/);
+  assert.match(checklist, /npm test/i);
+  assert.match(checklist, /validate:public/i);
+});
+
+test("plugin manifest stays local-only and secret-free by design", async () => {
+  const manifest = JSON.parse(await read(".codex-plugin/plugin.json"));
+
+  assert.equal(manifest.skills, "./skills/");
+  assert.equal("mcpServers" in manifest, false);
+  assert.equal("apps" in manifest, false);
+  assert.equal("hooks" in manifest, false);
+  assert.equal(JSON.stringify(manifest).toLowerCase().includes("api_key"), false);
+});
