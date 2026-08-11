@@ -1,6 +1,6 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Local-first development orchestration, evidence-backed coordination, and sanitized handoffs for Codex tasks.",
   "author": {
     "name": "Codex Task Control Tower Contributors"

@@ -1,5 +1,9 @@
 # Codex Task Control Tower
 
+[![CI](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml/badge.svg)](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/58254727-blip/codex-task-control-tower)](https://github.com/58254727-blip/codex-task-control-tower/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [简体中文](README.zh-CN.md)
 
 A local-first Codex plugin that turns one bounded software objective into a
@@ -8,6 +12,26 @@ evidence-backed execution, verifies the outcome, and preserves privacy-safe
 status and handoffs.
 
 It was extracted as a generic open-source tool. The repository contains no production credentials, private task history, company data, or user-specific configuration.
+
+## 60-second Demo
+
+```bash
+git clone https://github.com/58254727-blip/codex-task-control-tower.git
+cd codex-task-control-tower
+npm ci
+npm test
+npm run validate:public
+```
+
+Then install the repository root through the Codex plugin interface and ask:
+
+```text
+Use execution-controller to complete this bounded software objective end to end.
+```
+
+See the [synthetic end-to-end demo](docs/demo.md) for the expected planning,
+routing, execution, verification, status, and handoff artifacts. The example is
+deliberately synthetic and does not contain private task history.
 
 ## Features
 
@@ -87,7 +111,9 @@ npm test
 npm run validate:public
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and the [public release checklist](docs/public-release-checklist.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md),
+[SECURITY.md](SECURITY.md), the [changelog](CHANGELOG.md), and the
+[public release checklist](docs/public-release-checklist.md).
 
 ## License
 

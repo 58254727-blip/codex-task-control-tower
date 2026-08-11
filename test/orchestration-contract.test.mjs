@@ -137,14 +137,14 @@ test("synthetic orchestration scenario covers the complete bounded workflow", as
   assert.match(scenario, /no real repository/i);
 });
 
-test("v0.2 manifest and documentation expose orchestration without a daemon", async () => {
+test("v0.2.1 manifest and documentation expose orchestration without a daemon", async () => {
   const manifest = JSON.parse(await read(".codex-plugin/plugin.json"));
   const packageJson = JSON.parse(await read("package.json"));
   const readme = await read("README.md");
   const readmeZh = await read("README.zh-CN.md");
 
-  assert.equal(manifest.version, "0.2.0");
-  assert.equal(packageJson.version, "0.2.0");
+  assert.equal(manifest.version, "0.2.1");
+  assert.equal(packageJson.version, "0.2.1");
   assert.equal(manifest.interface.capabilities.length, 6);
   assert.match(manifest.interface.longDescription, /plan/i);
   assert.match(manifest.interface.longDescription, /Skill/i);

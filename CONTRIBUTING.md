@@ -29,3 +29,14 @@ If a scanner fixture intentionally resembles sensitive material, add only that e
 ## Pull Requests
 
 Describe the behavior changed, the verification evidence, and any remaining risk. Keep unrelated formatting or refactoring out of the change.
+
+## Issues
+
+Use the repository issue templates for reproducible bugs and bounded feature
+requests. Public reports must use synthetic or already-public material. If a
+report needs credentials, private task history, internal paths, personal data,
+or non-public logs, do not post it in a public issue.
+
+Good first contributions include documentation clarity, additional synthetic
+scenarios, cross-platform validation, and compatibility checks that preserve
+the local-only and evidence-backed contracts.
