@@ -1,7 +1,7 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.1.0",
-  "description": "Privacy-safe Codex skills for evidence-backed task status boards and compact handoffs.",
+  "version": "0.2.0",
+  "description": "Local-first Codex skills for bounded development orchestration, evidence-backed status, and privacy-safe handoffs.",
   "type": "module",
   "private": false,
   "license": "MIT",

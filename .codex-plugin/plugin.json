@@ -1,13 +1,15 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.1.0",
-  "description": "Read-only, evidence-backed coordination and sanitized handoffs for Codex tasks.",
+  "version": "0.2.0",
+  "description": "Local-first development orchestration, evidence-backed coordination, and sanitized handoffs for Codex tasks.",
   "author": {
     "name": "Codex Task Control Tower Contributors"
   },
   "license": "MIT",
   "keywords": [
     "codex",
+    "development-orchestration",
+    "skill-routing",
     "task-monitoring",
     "handoff",
     "privacy"
@@ -15,15 +17,20 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Codex Task Control Tower",
-    "shortDescription": "Evidence-backed task status and handoffs",
-    "longDescription": "Inspect task progress from concrete evidence, identify stalls, and create compact sanitized handoffs without modifying other tasks.",
+    "shortDescription": "Plan, route, execute, verify, and hand off Codex work",
+    "longDescription": "Plan bounded software work, route ready tasks to available Skills, control evidence-backed execution, verify outcomes, inspect task progress, and create sanitized handoffs.",
     "developerName": "Codex Task Control Tower Contributors",
     "category": "Productivity",
     "capabilities": [
+      "Smallest-sufficient development planning",
+      "Available-Skill routing",
+      "Bounded execution control",
+      "Evidence-based verification gates",
       "Evidence-backed task status",
       "Sanitized task handoffs"
     ],
     "defaultPrompt": [
+      "Use execution-controller to complete this bounded software objective end to end.",
       "Summarize these Codex tasks using concrete evidence.",
       "Create a sanitized handoff for this task."
     ]

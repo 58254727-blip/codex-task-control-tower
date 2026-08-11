@@ -2,18 +2,30 @@
 
 [简体中文](README.zh-CN.md)
 
-A small, local-only Codex plugin for evidence-backed task status and privacy-safe handoffs.
+A local-first Codex plugin that turns one bounded software objective into a
+small dependency graph, routes ready work to available Skills, controls
+evidence-backed execution, verifies the outcome, and preserves privacy-safe
+status and handoffs.
 
 It was extracted as a generic open-source tool. The repository contains no production credentials, private task history, company data, or user-specific configuration.
 
 ## Features
 
+- **Development planner**: creates the smallest sufficient task graph with explicit dependencies, write scopes, success criteria, verification, and stop conditions.
+- **Skill router**: selects one available primary Skill per task or records an honest no-Skill fallback.
+- **Execution controller**: provides one end-to-end entry point that advances dependency-ready work, records evidence, and stops repeated failures safely.
+- **Verification gate**: requires proof of the requested behavior, focused tests, relevant regressions, and applicable privacy or release checks.
 - **Task control tower**: classifies tasks as `completed`, `in_progress`, `blocked`, or `unverified` using concrete evidence.
 - **Stall detection**: distinguishes UI metadata from real progress and applies clear 20-minute and 30-minute thresholds.
 - **Sanitized handoff**: preserves the objective, verified work, boundaries, blocker, and next safe step without copying raw conversations.
 - **Public-release validator**: scans text files for likely secrets, private identifiers, personal contact data, absolute paths, and invalid UTF-8.
 
-The plugin is read-only by default. It does not message, stop, modify, or reprioritize other tasks unless a user separately authorizes that action.
+This is not a background daemon. Its orchestration runs only inside the active
+Codex task and under the current runtime's tools, Skills, permissions, and user
+instructions. It does not install missing Skills or grant permission for
+deployment, publishing, credentials, production data, or destructive actions.
+`task-control-tower` remains read-only unless the user separately authorizes
+intervention.
 
 ## Install
 
@@ -35,6 +47,13 @@ Node.js 18 or newer is required only for the validation scripts and tests. The s
 Ask Codex to use the relevant skill:
 
 ```text
+Use execution-controller to complete this bounded software objective end to end.
+```
+
+That entry point applies the planning, Skill routing, execution, and
+verification contracts without requiring a separate prompt for every stage.
+
+```text
 Use task-control-tower to summarize these tasks from concrete evidence only.
 ```
 
@@ -44,9 +63,19 @@ Use task-handoff to create a compact sanitized continuation record.
 
 Templates are available in `templates/`.
 
+The six bundled Skills are:
+
+- `execution-controller`
+- `development-planner`
+- `skill-router`
+- `verification-gate`
+- `task-control-tower`
+- `task-handoff`
+
 ## Privacy
 
 - No network service, MCP server, hook, telemetry, or API key is included.
+- Planning and routing never create authority for external side effects.
 - The validator never prints matched secret content; it reports only file, line, and rule.
 - The only credential-like fixture is deliberately synthetic and explicitly allowlisted for scanner tests.
 - Real credentials, private data, raw conversations, internal addresses, and unnecessary identifiers must never be committed.
