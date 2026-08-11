@@ -2,6 +2,15 @@
 
 All notable public changes are documented here.
 
+## 0.3.3 - 2026-08-11
+
+- Add a lightweight 38-second README animation generated from the real local
+  CLI with synthetic data.
+- Demonstrate task initialization, deterministic stall detection, evidence
+  verification, and privacy-safe handoff generation in one visible flow.
+- Keep the binary demo under an exact reviewed allowlist while preserving the
+  fail-closed UTF-8 and privacy scan for every other public file.
+
 ## 0.3.2 - 2026-08-11
 
 - Add direct npm and `npx` onboarding to both public README files.
