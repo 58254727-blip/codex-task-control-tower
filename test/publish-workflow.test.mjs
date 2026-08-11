@@ -18,6 +18,13 @@ test("npm publishing uses a bounded tokenless OIDC workflow", async () => {
   assert.match(workflow, /node-version: ["']?24["']?/);
   assert.match(workflow, /package-manager-cache: false/);
   assert.match(workflow, /GITHUB_REF_NAME/);
+  assert.match(workflow, /id: registry/);
+  assert.match(workflow, /npm view/);
+  assert.match(workflow, /already_published=true/);
+  assert.match(
+    workflow,
+    /if: \$\{\{ steps\.registry\.outputs\.already_published != 'true' \}\}/,
+  );
   assert.match(workflow, /npm run release:check/);
   assert.match(workflow, /run: npm publish/);
 
