@@ -138,6 +138,53 @@ function addEvidence(task, type, summary, at, failureKey) {
   task.latestEvidence = entry;
 }
 
+function minutesBetween(earlier, later) {
+  return Math.max(0, Math.floor((new Date(later) - new Date(earlier)) / 60_000));
+}
+
+function assessProgress(task, run, assessedAt) {
+  if (task.status !== "in_progress") {
+    return {
+      progressState: "not_applicable",
+      inactivityMinutes: null,
+      attention: null,
+    };
+  }
+
+  const progressAt = task.lastProgressAt
+    ?? task.latestEvidence?.at
+    ?? task.startedAt
+    ?? run.createdAt;
+  const inactivityMinutes = minutesBetween(progressAt, assessedAt);
+
+  if (inactivityMinutes < 20) {
+    return { progressState: "normal", inactivityMinutes, attention: null };
+  }
+
+  const progressKey = `${task.id}:${progressAt}`;
+  if (inactivityMinutes < 30) {
+    return {
+      progressState: "warning",
+      inactivityMinutes,
+      attention: {
+        level: "warning",
+        dedupeKey: `warning:${progressKey}`,
+        action: "report_last_evidence_and_blocker",
+      },
+    };
+  }
+
+  return {
+    progressState: "stalled",
+    inactivityMinutes,
+    attention: {
+      level: "stalled",
+      dedupeKey: `stalled:${progressKey}`,
+      action: "pause_at_safe_point",
+    },
+  };
+}
+
 export function createRun(plan, now) {
   const normalized = validatePlan(plan);
   const createdAt = normalizeTimestamp(now);
@@ -154,6 +201,8 @@ export function createRun(plan, now) {
       attemptCount: 0,
       failureCounts: {},
       blocker: null,
+      startedAt: null,
+      lastProgressAt: null,
       latestEvidence: null,
       evidence: [],
     })),
@@ -197,12 +246,15 @@ export function recordEvent(run, event) {
         throw new ControlTowerError(`task ${task.id} cannot start from status ${task.status}`);
       }
       task.status = "in_progress";
+      task.startedAt = at;
+      task.lastProgressAt = at;
       if (evidence) addEvidence(task, event.type, evidence, at);
       break;
 
     case "evidence":
       if (!evidence) throw new ControlTowerError("evidence event requires evidence");
       addEvidence(task, event.type, evidence, at);
+      if (task.status === "in_progress") task.lastProgressAt = at;
       break;
 
     case "complete":
@@ -327,19 +379,30 @@ export function createHandoff(run) {
   ].join("\n");
 }
 
-export function createStatusSnapshot(run) {
+export function createStatusSnapshot(run, now) {
+  const assessedAt = normalizeTimestamp(now);
   const ready = new Set(getReadyTaskIds(run));
-  return {
-    schemaVersion: run.schemaVersion,
-    objective: run.objective,
-    updatedAt: run.updatedAt,
-    gate: getGateResult(run),
-    tasks: run.tasks.map((task) => ({
+  const tasks = run.tasks.map((task) => {
+    const assessment = assessProgress(task, run, assessedAt);
+    return {
       id: task.id,
       status: ready.has(task.id) ? "ready" : task.status,
       attemptCount: task.attemptCount,
       latestEvidence: task.latestEvidence?.summary ?? null,
       blocker: task.blocker,
-    })),
+      ...assessment,
+    };
+  });
+
+  return {
+    schemaVersion: run.schemaVersion,
+    objective: run.objective,
+    updatedAt: run.updatedAt,
+    assessedAt,
+    gate: getGateResult(run),
+    alerts: tasks
+      .filter((task) => task.attention)
+      .map((task) => ({ taskId: task.id, ...task.attention })),
+    tasks,
   };
 }

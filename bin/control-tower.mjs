@@ -16,7 +16,7 @@ const HELP = `Codex Task Control Tower
 
 Usage:
   codex-control-tower init <plan.json> [--state <state.json>] [--force]
-  codex-control-tower status [--state <state.json>] [--json]
+  codex-control-tower status [--state <state.json>] [--at <ISO timestamp>] [--json]
   codex-control-tower record --task <id> --type <type> [options]
   codex-control-tower verify [--state <state.json>] [--json]
   codex-control-tower handoff [--state <state.json>] --output <handoff.md>
@@ -99,13 +99,16 @@ async function writeJsonAtomic(file, value) {
   await writeTextAtomic(file, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function printSnapshot(run) {
-  const snapshot = createStatusSnapshot(run);
+function printSnapshot(run, at) {
+  const snapshot = createStatusSnapshot(run, at);
   console.log(`Objective: ${snapshot.objective}`);
   console.log(`Gate: ${snapshot.gate.result} (${snapshot.gate.completed}/${snapshot.gate.total})`);
   for (const task of snapshot.tasks) {
     const evidence = task.latestEvidence ? ` | ${task.latestEvidence}` : "";
-    console.log(`${task.id}: ${task.status}${evidence}`);
+    const progress = task.progressState !== "not_applicable"
+      ? ` | progress=${task.progressState} (${task.inactivityMinutes}m inactive)`
+      : "";
+    console.log(`${task.id}: ${task.status}${progress}${evidence}`);
   }
 }
 
@@ -135,9 +138,9 @@ async function main() {
   const run = await readJson(file);
 
   if (command === "status") {
-    const snapshot = createStatusSnapshot(run);
+    const snapshot = createStatusSnapshot(run, options.get("at"));
     if (options.has("json")) console.log(JSON.stringify(snapshot, null, 2));
-    else printSnapshot(run);
+    else printSnapshot(run, options.get("at"));
     return;
   }
 

@@ -89,3 +89,29 @@ test("CLI refuses to overwrite an existing state unless force is explicit", asyn
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("CLI status supports a deterministic assessment time", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "control-tower-status-"));
+  const state = path.join(directory, "state.json");
+
+  try {
+    let result = runCli(["init", fileURLToPath(fixture), "--state", state], directory);
+    assert.equal(result.status, 0, result.stderr);
+
+    result = runCli([
+      "record", "--state", state, "--task", "contract", "--type", "start",
+      "--evidence", "Synthetic implementation started", "--at", "2026-08-11T00:00:00.000Z",
+    ], directory);
+    assert.equal(result.status, 0, result.stderr);
+
+    result = runCli([
+      "status", "--state", state, "--at", "2026-08-11T00:20:00.000Z", "--json",
+    ], directory);
+    assert.equal(result.status, 0, result.stderr);
+    const snapshot = JSON.parse(result.stdout);
+    assert.equal(snapshot.tasks[0].progressState, "warning");
+    assert.equal(snapshot.alerts[0].action, "report_last_evidence_and_blocker");
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});

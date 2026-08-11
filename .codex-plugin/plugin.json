@@ -1,6 +1,6 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Local-first development orchestration with a runnable evidence ledger and sanitized handoffs for Codex tasks.",
   "author": {
     "name": "Codex Task Control Tower Contributors"
@@ -27,6 +27,7 @@
       "Bounded execution control",
       "Evidence-based verification gates",
       "Evidence-backed task status",
+      "Machine-readable inactivity assessment",
       "Sanitized task handoffs",
       "Runnable local evidence ledger CLI"
     ],

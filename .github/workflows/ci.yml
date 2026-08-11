@@ -49,3 +49,6 @@ jobs:
 
       - name: Inspect npm package contents
         run: npm pack --dry-run
+
+      - name: Install and invoke the packed consumer package
+        run: npm run verify:consumer

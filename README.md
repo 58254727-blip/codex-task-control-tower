@@ -60,6 +60,7 @@ private task history.
 - **Verification gate**: requires proof of the requested behavior, focused tests, relevant regressions, and applicable privacy or release checks.
 - **Task control tower**: classifies tasks as `completed`, `in_progress`, `blocked`, or `unverified` using concrete evidence.
 - **Stall detection**: distinguishes UI metadata from real progress and applies clear 20-minute and 30-minute thresholds.
+- **Machine-readable timelines**: emits deterministic inactivity assessments and stable warning keys that consumers can de-duplicate.
 - **Sanitized handoff**: preserves the objective, verified work, boundaries, blocker, and next safe step without copying raw conversations.
 - **Local runtime CLI**: stores an inspectable JSON ledger, enforces dependency readiness and the two-equivalent-failure stop, returns meaningful exit codes, and writes sanitized Markdown handoffs.
 - **Public-release validator**: scans text files for likely secrets, private identifiers, personal contact data, absolute paths, and invalid UTF-8.
@@ -83,6 +84,7 @@ cd codex-task-control-tower
 npm test
 npm run demo
 npm run validate:public
+npm run verify:consumer
 ```
 
 Node.js 18 or newer is required for the optional CLI, demo, validator, and
@@ -152,7 +154,9 @@ npm pack --dry-run
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md),
 [SECURITY.md](SECURITY.md), the [changelog](CHANGELOG.md), and the
-[public release checklist](docs/public-release-checklist.md).
+[public release checklist](docs/public-release-checklist.md). Platform,
+packaged-install, plugin-manifest, and Skill-validator results are recorded in
+the [compatibility matrix](docs/compatibility.md).
 
 ## License
 

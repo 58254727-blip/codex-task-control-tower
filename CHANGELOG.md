@@ -2,6 +2,20 @@
 
 All notable public changes are documented here.
 
+## 0.3.1 - 2026-08-11
+
+- Add deterministic 20-minute warning and 30-minute stalled assessments without
+  changing persisted task states.
+- Add stable alert de-duplication keys and explicit recovery behavior when new
+  evidence arrives.
+- Add five machine-readable synthetic timelines covering normal progress,
+  one-time warning, repeated stall, hard-boundary pause, recovery, and safe
+  handoff.
+- Install the packed package in a clean temporary consumer and invoke its CLI
+  on every supported CI platform.
+- Add a release compatibility matrix for Node.js, operating systems, plugin
+  manifests, and all six bundled Skills.
+
 ## 0.3.0 - 2026-08-11
 
 - Add a zero-dependency local CLI and state engine for dependency readiness,

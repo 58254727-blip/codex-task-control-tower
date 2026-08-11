@@ -34,6 +34,17 @@ explicit. `verify` exits with code `0` only when every task is completed with
 evidence. An unfinished or blocked run exits with code `1`; invalid input exits
 with code `2`.
 
+`status` reports a machine-readable `progressState` for tasks that are still
+`in_progress`: `normal` before 20 minutes without evidence, `warning` from 20
+minutes, and `stalled` from 30 minutes. These are snapshot assessments; they do
+not overwrite the persisted four-state task contract. Stable `dedupeKey`
+values let a caller emit one warning per unchanged evidence point. For a
+deterministic replay, supply an explicit assessment time:
+
+```bash
+node bin/control-tower.mjs status --at 2026-08-11T00:20:00.000Z --json
+```
+
 For repeated failures, supply a stable root-cause key:
 
 ```bash

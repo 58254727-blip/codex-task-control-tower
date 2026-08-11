@@ -1,0 +1,52 @@
+{
+  "name": "hard-boundary-pause",
+  "createdAt": "2026-08-11T00:00:00.000Z",
+  "plan": {
+    "objective": "Prepare a synthetic release without publishing it",
+    "boundaries": ["Publishing requires explicit user approval"],
+    "tasks": [
+      {
+        "id": "release",
+        "outcome": "Prepare a synthetic release candidate",
+        "dependencies": [],
+        "writeScope": ["dist/synthetic-package.tgz"],
+        "successCriteria": ["The synthetic package is ready locally"],
+        "verification": ["npm pack --dry-run"],
+        "stopCondition": "External publication approval is required"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "event": {
+        "taskId": "release",
+        "type": "block",
+        "evidence": "Synthetic release approval is required before publication",
+        "at": "2026-08-11T00:05:00.000Z"
+      }
+    },
+    {
+      "assessment": {
+        "at": "2026-08-11T00:10:00.000Z",
+        "expected": {
+          "gateResult": "failed",
+          "alerts": [],
+          "tasks": [
+            {
+              "id": "release",
+              "status": "blocked",
+              "progressState": "not_applicable",
+              "inactivityMinutes": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "handoff": {
+    "contains": [
+      "Synthetic release approval is required before publication",
+      "Gate result: `failed`"
+    ]
+  }
+}
