@@ -33,6 +33,14 @@ to stop work when evidence or authority is missing.
 
 ## 60-second Demo
 
+<p align="center">
+  <img src="docs/assets/control-tower-demo.gif" alt="Codex Task Control Tower initializes a task graph, detects a stall, verifies evidence, and writes a sanitized handoff" width="960">
+</p>
+
+The 38-second animation above is generated from the real local CLI with
+synthetic data. It covers initialization, deterministic stall detection, the
+evidence gate, and a handoff where private-looking sample fields are redacted.
+
 Run the published CLI without cloning the repository:
 
 ```bash
