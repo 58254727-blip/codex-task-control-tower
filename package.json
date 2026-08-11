@@ -1,0 +1,15 @@
+{
+  "name": "codex-task-control-tower",
+  "version": "0.1.0",
+  "description": "Privacy-safe Codex skills for evidence-backed task status boards and compact handoffs.",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "validate:public": "node scripts/validate-public-release.mjs ."
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

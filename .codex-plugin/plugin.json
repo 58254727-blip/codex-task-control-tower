@@ -1,0 +1,27 @@
+{
+  "name": "codex-task-control-tower",
+  "version": "0.1.0",
+  "description": "Read-only, evidence-backed coordination and sanitized handoffs for Codex tasks.",
+  "author": {
+    "name": "Codex Task Control Tower Contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "task-monitoring",
+    "handoff",
+    "privacy"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Task Control Tower",
+    "shortDescription": "Evidence-backed task status and handoffs",
+    "longDescription": "Inspect task progress from concrete evidence, identify stalls, and create compact sanitized handoffs without modifying other tasks.",
+    "developerName": "Codex Task Control Tower Contributors",
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Summarize these Codex tasks using concrete evidence.",
+      "Create a sanitized handoff for this task."
+    ]
+  }
+}

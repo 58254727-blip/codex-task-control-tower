@@ -1,0 +1,4 @@
+This is a synthetic scanner fixture, not a usable credential.
+-----BEGIN PRIVATE KEY-----
+SYNTHETIC_SECRET_BODY
+-----END PRIVATE KEY-----
