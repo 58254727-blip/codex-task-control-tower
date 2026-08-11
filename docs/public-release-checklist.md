@@ -12,11 +12,15 @@ Complete every item before publishing.
 
 ```bash
 npm test
+npm run demo
 npm run validate:public
+npm pack --dry-run
 ```
 
-- [ ] All contract and scenario tests pass.
+- [ ] All contract, engine, scanner, and real CLI process tests pass.
+- [ ] The executable synthetic demo reaches a passing gate and sanitized handoff.
 - [ ] The public-release validator reports zero findings outside its exact synthetic fixture allowlist.
+- [ ] The package dry run contains only intended public files.
 - [ ] All skill folders pass the Codex skill validator.
 - [ ] The plugin root passes the Codex plugin validator.
 

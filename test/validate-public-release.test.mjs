@@ -61,3 +61,53 @@ test("invalid UTF-8 fails closed", async () => {
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("documentation ranges are allowed but nearby public IPv4 addresses fail", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "control-tower-ipv4-"));
+  try {
+    const documentationAddresses = [
+      [192, 0, 2, 10],
+      [198, 51, 100, 10],
+      [203, 0, 113, 10],
+      [198, 18, 0, 10],
+    ].map((parts) => parts.join("."));
+    const publicAddresses = [
+      [192, 0, 5, 10],
+      [198, 51, 1, 10],
+    ].map((parts) => parts.join("."));
+
+    await writeFile(path.join(root, "documentation.txt"), documentationAddresses.join("\n"));
+    await writeFile(path.join(root, "public.txt"), publicAddresses.join("\n"));
+
+    const result = await validateRepository(root);
+    const publicFindings = result.findings.filter((finding) => finding.rule === "public-ipv4");
+    assert.deepEqual(
+      publicFindings.map((finding) => [finding.file, finding.line]),
+      [["public.txt", 1], ["public.txt", 2]],
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("standalone provider tokens are detected without echoing their values", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "control-tower-tokens-"));
+  try {
+    const values = [
+      ["sk", "proj", "syntheticvalue1234567890"].join("-"),
+      ["ghp", "SyntheticValue12345678901234567890"].join("_"),
+      ["AKIA", "SYNTHETICVALUE12"].join(""),
+      ["xoxb", "123456789012", "synthetic-token-value"].join("-"),
+    ];
+    await writeFile(path.join(root, "tokens.txt"), values.join("\n"));
+
+    const result = await validateRepository(root);
+    assert.deepEqual(
+      result.findings.map((finding) => finding.rule),
+      ["openai-token", "github-token", "aws-access-key", "slack-token"],
+    );
+    for (const value of values) assert.equal(JSON.stringify(result).includes(value), false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});

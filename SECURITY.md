@@ -13,3 +13,9 @@ Include the affected version, a minimal synthetic reproduction, the expected beh
 ## Data Handling
 
 This plugin is designed to operate without a network service, telemetry, API keys, or stored credentials. The release validator reports a finding's file, line, and rule but never echoes the matched content.
+
+The optional CLI stores raw local task evidence in `.control-tower/` by default.
+That directory is ignored by Git, but users remain responsible for protecting
+custom state paths and reviewing generated handoffs before sharing them. The
+handoff sanitizer is defense in depth, not a substitute for keeping secrets and
+private records out of public repositories.

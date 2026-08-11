@@ -15,14 +15,20 @@ Thank you for improving Codex Task Control Tower.
 
 ## Validation
 
-Run both checks before opening a pull request:
+Run all checks before opening a pull request:
 
 ```bash
 npm test
+npm run demo
 npm run validate:public
+npm pack --dry-run
 ```
 
-The first command verifies the skill contracts and synthetic scenarios. The second scans the complete repository for material that should not be published.
+The test suite verifies the Skill contracts, state engine, scanner, and real CLI
+process flow. The demo runs the synthetic ledger from initialization through a
+passing gate and handoff. The release validator scans the complete repository
+for material that should not be published, and the package dry run shows the
+exact files that would ship.
 
 If a scanner fixture intentionally resembles sensitive material, add only that exact synthetic file to `.public-release-allowlist.json` and explain why.
 
