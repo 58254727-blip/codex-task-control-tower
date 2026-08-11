@@ -31,6 +31,9 @@ The work is tracked in
    not match.
 4. Add a contract test that keeps those supply-chain constraints inspectable.
 5. Run `npm run release:check` before the publish step.
+6. Check the public registry before publishing and skip an already-published
+   version after the release gate succeeds. This keeps a retried GitHub release
+   deterministic without masking test or tag failures.
 
 ## Evidence
 
