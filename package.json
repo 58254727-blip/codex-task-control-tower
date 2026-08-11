@@ -1,6 +1,6 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Local-first Codex orchestration skills with a runnable evidence ledger, verification gates, and privacy-safe handoffs.",
   "type": "module",
   "private": false,

@@ -52,6 +52,7 @@ must not be inferred from the npm consumer test.
 
 | Release | Runtime date | Plugin manifest | `execution-controller` | `development-planner` | `skill-router` | `verification-gate` | `task-control-tower` | `task-handoff` |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.3.2 | 2026-08-11 | Pass | Pass | Pass | Pass | Pass | Pass | Pass |
 | 0.3.1 | 2026-08-11 | Pass | Pass | Pass | Pass | Pass | Pass | Pass |
 
 Validator used: the official Codex `validate_plugin.py` and
