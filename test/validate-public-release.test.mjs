@@ -111,3 +111,26 @@ test("standalone provider tokens are detected without echoing their values", asy
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("credential-like URL query parameters are detected without echoing their values", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "control-tower-url-secret-"));
+  try {
+    const secretValue = "short";
+    const queryKey = ["access", "token"].join("_");
+    await writeFile(
+      path.join(root, "url.txt"),
+      `https://example.test/callback?${queryKey}=${secretValue}`,
+      "utf8",
+    );
+
+    const result = await validateRepository(root);
+
+    assert.deepEqual(
+      result.findings.map((finding) => finding.rule),
+      ["credential-url-query"],
+    );
+    assert.equal(JSON.stringify(result).includes(secretValue), false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});

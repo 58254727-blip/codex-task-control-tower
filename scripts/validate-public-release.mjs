@@ -25,6 +25,11 @@ const LINE_RULES = [
       /\b(?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret[_-]?key)\b\s*[:=]\s*["']?[A-Za-z0-9_./+=-]{12,}/i,
   },
   {
+    rule: "credential-url-query",
+    pattern:
+      /[?&](?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret[_-]?key|token|password|signature)=[^&#\s]+/i,
+  },
+  {
     rule: "openai-token",
     pattern: /\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{16,}\b/,
   },
