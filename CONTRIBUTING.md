@@ -4,10 +4,13 @@ Thank you for improving Codex Task Control Tower.
 
 ## Ground Rules
 
-- Keep the plugin local-only and read-only by default.
+- Keep the plugin local-only. Keep `task-control-tower` read-only by default,
+  and keep orchestration inside the user's explicit working scope.
 - Use synthetic examples. Never submit real credentials, cookies, private data, raw task history, internal addresses, or personal contact details.
 - Keep status claims tied to concrete evidence.
-- Preserve the four task states and the required handoff fields unless a compatible migration is documented.
+- Preserve the planner task contract, router availability rules, failure stop
+  rule, verification results, four task states, and required handoff fields
+  unless a compatible migration is documented.
 - Do not add network services, telemetry, hooks, or external dependencies without prior discussion.
 
 ## Validation
