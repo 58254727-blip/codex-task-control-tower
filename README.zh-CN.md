@@ -22,7 +22,7 @@
 本地验证：
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/58254727-blip/codex-task-control-tower.git
 cd codex-task-control-tower
 npm test
 npm run validate:public

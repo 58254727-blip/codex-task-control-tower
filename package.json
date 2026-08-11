@@ -5,6 +5,14 @@
   "type": "module",
   "private": false,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/58254727-blip/codex-task-control-tower.git"
+  },
+  "homepage": "https://github.com/58254727-blip/codex-task-control-tower#readme",
+  "bugs": {
+    "url": "https://github.com/58254727-blip/codex-task-control-tower/issues"
+  },
   "scripts": {
     "test": "node --test",
     "validate:public": "node scripts/validate-public-release.mjs ."
