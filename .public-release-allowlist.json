@@ -1,0 +1,8 @@
+{
+  "files": [
+    {
+      "path": "test/fixtures/risky/private-key.txt",
+      "reason": "Deliberately synthetic input used to prove the scanner detects and redacts private-key material."
+    }
+  ]
+}

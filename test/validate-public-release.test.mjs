@@ -8,6 +8,13 @@ import { validateRepository } from "../scripts/validate-public-release.mjs";
 
 const cleanFixture = new URL("./fixtures/clean/", import.meta.url);
 const riskyFixture = new URL("./fixtures/risky/", import.meta.url);
+const syntheticPrivateKey = [
+  "-----BEGIN ",
+  "PRIVATE KEY-----\n",
+  "SYNTHETIC_SECRET_BODY\n",
+  "-----END ",
+  "PRIVATE KEY-----\n",
+].join("");
 
 test("clean synthetic fixture passes", async () => {
   const result = await validateRepository(cleanFixture);
@@ -28,7 +35,7 @@ test("an explicit synthetic allowlist suppresses only the named file", async () 
   try {
     await writeFile(
       path.join(root, "synthetic-secret.txt"),
-      "-----BEGIN PRIVATE KEY-----\nSYNTHETIC_SECRET_BODY\n-----END PRIVATE KEY-----\n",
+      syntheticPrivateKey,
       "utf8",
     );
 
