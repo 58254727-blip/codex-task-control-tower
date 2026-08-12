@@ -2,6 +2,15 @@
 
 All notable public changes are documented here.
 
+## 0.3.4 - 2026-08-12
+
+- Detect credential-like URL query parameters in raw, HTML-escaped, and
+  percent-encoded forms during public-release validation.
+- Cover common token, secret, password, signature, and provider-signed URL
+  parameter names without echoing their values.
+- Preserve ordinary query parameters, similar non-credential names, and empty
+  values.
+
 ## 0.3.3 - 2026-08-11
 
 - Add a lightweight 38-second README animation generated from the real local
