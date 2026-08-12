@@ -3,6 +3,10 @@
     {
       "path": "test/fixtures/risky/private-key.txt",
       "reason": "Deliberately synthetic input used to prove the scanner detects and redacts private-key material."
+    },
+    {
+      "path": "docs/assets/control-tower-demo.gif",
+      "reason": "Generated binary README demo containing only synthetic CLI output; reviewed visually and excluded from UTF-8 text scanning by exact path."
     }
   ]
 }

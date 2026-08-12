@@ -2,6 +2,25 @@
 
 All notable public changes are documented here.
 
+## 0.3.3 - 2026-08-11
+
+- Add a lightweight 38-second README animation generated from the real local
+  CLI with synthetic data.
+- Demonstrate task initialization, deterministic stall detection, evidence
+  verification, and privacy-safe handoff generation in one visible flow.
+- Keep the binary demo under an exact reviewed allowlist while preserving the
+  fail-closed UTF-8 and privacy scan for every other public file.
+
+## 0.3.2 - 2026-08-11
+
+- Add direct npm and `npx` onboarding to both public README files.
+- Add a tokenless GitHub Actions trusted-publishing workflow with an exact
+  release-tag/package-version gate.
+- Add contract tests that require OIDC permissions and reject long-lived npm
+  tokens in the publishing workflow.
+- Document a real repository-maintenance case study linked to the public issue
+  and pull request that delivered the release path.
+
 ## 0.3.1 - 2026-08-11
 
 - Add deterministic 20-minute warning and 30-minute stalled assessments without

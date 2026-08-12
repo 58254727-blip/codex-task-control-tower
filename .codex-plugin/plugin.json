@@ -1,6 +1,6 @@
 {
   "name": "codex-task-control-tower",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Local-first development orchestration with a runnable evidence ledger and sanitized handoffs for Codex tasks.",
   "author": {
     "name": "Codex Task Control Tower Contributors"

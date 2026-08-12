@@ -20,7 +20,7 @@ npm pack --dry-run
 
 - [ ] All contract, engine, scanner, and real CLI process tests pass.
 - [ ] The executable synthetic demo reaches a passing gate and sanitized handoff.
-- [ ] The public-release validator reports zero findings outside its exact synthetic fixture allowlist.
+- [ ] The public-release validator reports zero findings outside its exact synthetic fixture and reviewed binary-demo allowlist.
 - [ ] The package dry run contains only intended public files.
 - [ ] A clean temporary consumer can install the packed artifact and invoke its CLI.
 - [ ] All skill folders pass the Codex skill validator.

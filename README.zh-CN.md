@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml/badge.svg)](https://github.com/58254727-blip/codex-task-control-tower/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/58254727-blip/codex-task-control-tower)](https://github.com/58254727-blip/codex-task-control-tower/releases)
+[![npm](https://img.shields.io/npm/v/codex-task-control-tower)](https://www.npmjs.com/package/codex-task-control-tower)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [English](README.md)
@@ -23,6 +24,21 @@
 同时也足够严格，会在缺少证据或授权时停止继续推进。
 
 ## 60 秒演示
+
+<p align="center">
+  <img src="docs/assets/control-tower-demo.gif" alt="Codex 任务控制塔依次初始化任务、识别停滞、验证证据并生成脱敏交接" width="960">
+</p>
+
+上面的 38 秒动画由真实本地 CLI 配合合成数据生成，依次展示初始化、
+可重复计算的停滞识别、证据验收门槛，以及对示例隐私字段完成脱敏的任务交接。
+
+无需克隆仓库，直接运行已发布的 CLI：
+
+```bash
+npx --yes codex-task-control-tower@latest --help
+```
+
+也可以运行完整仓库演示和公开发布检查：
 
 ```bash
 git clone https://github.com/58254727-blip/codex-task-control-tower.git
@@ -60,7 +76,22 @@ npm run validate:public
 
 ## 安装
 
-克隆或下载本仓库，然后在 Codex 插件界面中从仓库根目录安装。插件清单位于 `.codex-plugin/plugin.json`。
+直接运行已发布的零依赖 CLI：
+
+```bash
+npx --yes codex-task-control-tower@latest --help
+```
+
+需要长期使用全局命令时：
+
+```bash
+npm install --global codex-task-control-tower
+codex-control-tower --help
+```
+
+公开包位于 [npm](https://www.npmjs.com/package/codex-task-control-tower)。
+安装 Codex Skills 时，克隆或下载本仓库，然后在 Codex 插件界面中从仓库根目录安装；
+插件清单位于 `.codex-plugin/plugin.json`。
 
 本地验证：
 
@@ -74,6 +105,9 @@ npm run verify:consumer
 ```
 
 可选 CLI、演示、验证脚本和测试需要 Node.js 18 或更高版本；Skills 本身没有运行时依赖，CLI 也不依赖第三方包。
+
+项目如何用自身工具完成一次真实维护任务，见
+[npm 接入与可信发布案例](docs/maintainer-case-study.md)。
 
 ## 使用
 
