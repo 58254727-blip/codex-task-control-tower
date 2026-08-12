@@ -1,6 +1,6 @@
 # Compatibility and Installation Matrix
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 
 This record separates package/runtime proof from Codex plugin structure proof.
 Passing one layer does not imply that another layer was tested.
@@ -52,6 +52,7 @@ must not be inferred from the npm consumer test.
 
 | Release | Runtime date | Plugin manifest | `execution-controller` | `development-planner` | `skill-router` | `verification-gate` | `task-control-tower` | `task-handoff` |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.3.4 | 2026-08-12 | Pass | Pass | Pass | Pass | Pass | Pass | Pass |
 | 0.3.2 | 2026-08-11 | Pass | Pass | Pass | Pass | Pass | Pass | Pass |
 | 0.3.1 | 2026-08-11 | Pass | Pass | Pass | Pass | Pass | Pass | Pass |
 
