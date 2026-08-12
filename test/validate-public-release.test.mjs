@@ -111,3 +111,72 @@ test("standalone provider tokens are detected without echoing their values", asy
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("credential-like URL query parameters are detected without echoing their values", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "control-tower-url-secret-"));
+  try {
+    const queryKeys = [
+      ["api", "key"].join("_"),
+      ["access", "token"].join("-"),
+      ["refresh", "token"].join("_"),
+      ["secret", "key"].join("-"),
+      ["CLIENT", "SECRET"].join("_"),
+      ["auth", "token"].join("_"),
+      ["session", "token"].join("-"),
+      "token",
+      "password",
+      "signature",
+      ["x", "amz", "signature"].join("-"),
+      ["x", "goog", "credential"].join("-"),
+    ];
+    const secretValues = queryKeys.map((_, index) => `q${index}x`);
+    const urls = queryKeys.map((queryKey, index) => {
+      const separator = index === 9 ? "&" : "?";
+      const prefix = separator === "&" ? "?page=1" : "";
+      return `https://example.test/callback${prefix}${separator}${queryKey}=${secretValues[index]}`;
+    });
+    const encodedKey = ["access", "%5F", "token"].join("");
+    urls.push(
+      `https://example.test/callback?page=1&amp;${queryKeys[1]}=q12x`,
+      `https://example.test/callback%3F${encodedKey}%3Dq13x`,
+    );
+    await writeFile(
+      path.join(root, "url.txt"),
+      urls.join("\n"),
+      "utf8",
+    );
+
+    const result = await validateRepository(root);
+
+    assert.deepEqual(result.findings, urls.map((_, index) => ({
+      file: "url.txt",
+      line: index + 1,
+      rule: "credential-url-query",
+    })));
+    for (const value of [...secretValues, "q12x", "q13x"]) {
+      assert.equal(JSON.stringify(result).includes(value), false);
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("ordinary and empty URL query parameters remain allowed", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "control-tower-url-clean-"));
+  try {
+    const urls = [
+      "https://example.test/items?page=2&sort=updated",
+      "https://example.test/items?not_token=value&client_id=synthetic",
+      "https://example.test/items?tokenize=true&password_policy=strict",
+      "https://example.test/items?signature_algorithm=sha256",
+      "https://example.test/items?token=&client_secret=",
+    ];
+    await writeFile(path.join(root, "urls.txt"), urls.join("\n"), "utf8");
+
+    const result = await validateRepository(root);
+
+    assert.deepEqual(result.findings, []);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
