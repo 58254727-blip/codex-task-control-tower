@@ -10,6 +10,32 @@ const privateKeyPattern = new RegExp(
   "i",
 );
 
+const urlQueryKeyJoiner = String.raw`(?:[_-]|%2d|%5f)?`;
+const credentialUrlQueryPattern = new RegExp(
+  [
+    String.raw`(?:[?&]|&amp;|%3f|%26)`,
+    "(?:",
+    [
+      `api${urlQueryKeyJoiner}key`,
+      `access${urlQueryKeyJoiner}token`,
+      `refresh${urlQueryKeyJoiner}token`,
+      `secret${urlQueryKeyJoiner}key`,
+      `client${urlQueryKeyJoiner}secret`,
+      `auth${urlQueryKeyJoiner}token`,
+      `session${urlQueryKeyJoiner}token`,
+      `security${urlQueryKeyJoiner}token`,
+      "token",
+      "password",
+      "signature",
+      `x${urlQueryKeyJoiner}(?:amz|goog)${urlQueryKeyJoiner}`
+        + `(?:credential|signature|security${urlQueryKeyJoiner}token)`,
+    ].join("|"),
+    ")",
+    String.raw`(?:=|%3d)[^&#\s"'\x60<>()\[\]{}]+`,
+  ].join(""),
+  "i",
+);
+
 const LINE_RULES = [
   {
     rule: "private-key",
@@ -26,8 +52,7 @@ const LINE_RULES = [
   },
   {
     rule: "credential-url-query",
-    pattern:
-      /[?&](?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret[_-]?key|token|password|signature)=[^&#\s]+/i,
+    pattern: credentialUrlQueryPattern,
   },
   {
     rule: "openai-token",
